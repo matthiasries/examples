@@ -9,11 +9,11 @@ our $VERSION = "0.1";
 
 package Person;
 use Any::Moose;
+use Method::Signatures;
  has 'name' => ( is => 'rw' , isa => 'Str' , is_required => '1', default => "Junge");
  
    
- sub talk { 
-    my ($self) = shift;
+ method talk { 
     my  $param = shift || "Stranger";
     say $self->name . ": " . "Hello $param";
     };
