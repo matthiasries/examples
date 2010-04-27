@@ -2,12 +2,12 @@
 select STDOUT;$|=1; # IDE-Fix
 #######
 # Author Matthias Ries
-# Version: > 0.6   What: playing with Moose/MooseX::Declare, delegation, observer and decorator pattern
+# Version: > 0.7   What: playing with Moose/MooseX::Declare, delegation, observer and decorator pattern
 #######
 
 use v5.10;
 use MooseX::Declare;
-our $VERSION = "0.6";
+our $VERSION = "0.7";
 
 
 
