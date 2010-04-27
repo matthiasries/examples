@@ -18,9 +18,8 @@ class Weapon {
     has 'name'   => (is => 'rw', isa => 'Str');
     has 'level'  => (is => 'rw', isa => 'Num', default => "1");
     has 'damage' => (is => 'rw', isa => 'Int', default => "2");
-    method attack($enemy?) { 
+    method attack($enemy? = 'Satan') { 
         
-        $enemy //= 'Satan';
         say "Attacks $enemy with ".$self->name;
         
         }
@@ -111,9 +110,23 @@ class Person with Observer  {
 
 }
 
+class Weapon::Factory {
+    
+    method get_weapon( $name ) {
+        my $weaponclass;
+        given ( $name ){
+            when ('Sword'){$weaponclass = 'Weapon::Sword'}
+            when ('Fist' ){$weaponclass = 'Weapon::Fist'}
+            default { $weaponclass = 'Weapon::Fist' }            
+            };
+        return  $weaponclass->new();        
+    };
+
+    
+    };
 
 class Hero extends Person {
-
+    
     has 'name'  => (is => 'rw', isa => 'Str', default => "Junger Held");
     has 'level' => (is => 'rw', isa => 'Int', default => "1");
     has 'life'  => (is => 'rw', isa => 'Num', default => "10");
@@ -123,9 +136,10 @@ class Hero extends Person {
                  default => sub { Weapon::Fist->new }, 
                  );
                  
-    method set_weapon($weapon) {
-                     my $weaponclass = "Weapon::$weapon";
-                     $self->weapon( eval{ $weaponclass->new()|| Weapon::Fist->new} );
+    method set_weapon($weapon) { 
+# i love method-chaining :-)
+                    $self->weapon( Weapon::Factory->new->get_weapon( $weapon ) );
+
                      }
 }
 
